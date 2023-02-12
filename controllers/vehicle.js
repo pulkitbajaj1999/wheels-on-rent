@@ -25,6 +25,43 @@ module.exports.getVehicles = (req, res, next) => {
     })
 }
 
+// optimize bookings on vehicle
+module.exports.getVehiclesWithBookings = (req, res, next) => {
+  const searchQuery = req.query.q
+  const options = searchQuery
+    ? {
+        $or: [{ model: { $regex: searchQuery, $options: 'i' } }],
+      }
+    : {}
+  Booking.find()
+    .lean()
+    .then((bookings) => {
+      Vehicle.find(options)
+        .lean()
+        .then((vehicles) => {
+          console.log('booking', bookings[0].vehicle.toString())
+          console.log('vehicle', vehicles[0]._id.toString())
+          vehicles = vehicles.map((vehicle) => {
+            return {
+              ...vehicle,
+              bookings: bookings.filter(
+                (booking) =>
+                  booking.vehicle.toString() === vehicle._id.toString()
+              ),
+            }
+          })
+          return res.status(200).json({
+            status: 'ok',
+            msg: 'vehicles fetched successfully',
+            vehicles,
+          })
+        })
+        .catch((err) => {
+          next(err)
+        })
+    })
+}
+
 module.exports.getVehicleById = (req, res, next) => {
   const { vehicleId } = req.params
   if (!vehicleId)

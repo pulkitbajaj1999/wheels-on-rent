@@ -5,8 +5,12 @@ const Vehicle = require('../models/vehicle')
 
 // controllers
 module.exports.getBookings = (req, res, next) => {
-  const searchQuery = req.query.q
-  Booking.find()
+  const { vehicleId, userId, date } = req.query
+  const options = {}
+  if (vehicleId) options.vehicle = vehicleId
+  if (userId) options.user = userId
+  if (date) options.date = new Date(date)
+  Booking.find(options)
     .populate('user vehicle')
     .lean()
     .then((bookings) => {

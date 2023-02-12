@@ -6,6 +6,9 @@ const vehicleController = require('../controllers/vehicle')
 // GET all vehicles
 router.get('/', vehicleController.getVehicles)
 
+// GET all vehicles with bookings
+router.get('/bookings', vehicleController.getVehiclesWithBookings)
+
 // GET vehicle by id
 router.get('/:vehicleId', vehicleController.getVehicleById)
 
