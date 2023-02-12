@@ -71,7 +71,6 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
 
   const bookVehicleHandler = async () => {
     if (role !== 'CUSTOMER') {
-      console.log('role', role)
       navigate('/login')
       return
     }

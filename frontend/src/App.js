@@ -19,7 +19,6 @@ import NotFound from './components/404/NotFound'
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
 const App = () => {
-  console.log('-----app-----')
   const dispatch = useDispatch()
   // fetching auth state
   const authState = useSelector((state) => state.auth)
