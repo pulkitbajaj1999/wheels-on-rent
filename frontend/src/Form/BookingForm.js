@@ -3,7 +3,7 @@ import axios from 'axios'
 
 import classes from './form.module.css'
 import Box from '@mui/material/Box'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import usePostData from '../hooks/use-post-data'
 import useFetch from '../hooks/use-fetch'
 
@@ -12,6 +12,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
 const BookingForm = () => {
   const params = useParams()
+  const navigate = useNavigate()
   const bookingId = params?.bookingId
 
   const [postData, { data: reponseData, loading, error: postError }] =
@@ -25,7 +26,7 @@ const BookingForm = () => {
   const dateRef = useRef()
   const daysRef = useRef()
 
-  const formSubmitHandler = (e) => {
+  const formSubmitHandler = async (e) => {
     e.preventDefault()
     const bookingFormData = new FormData()
 
@@ -42,7 +43,8 @@ const BookingForm = () => {
       method = 'PUT'
     }
 
-    postData({ url, method, payload: bookingFormData })
+    await postData({ url, method, payload: bookingFormData })
+    navigate('/bookings')
   }
 
   return (
