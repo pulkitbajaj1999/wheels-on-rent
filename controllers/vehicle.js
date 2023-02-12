@@ -39,8 +39,6 @@ module.exports.getVehiclesWithBookings = (req, res, next) => {
       Vehicle.find(options)
         .lean()
         .then((vehicles) => {
-          console.log('booking', bookings[0].vehicle.toString())
-          console.log('vehicle', vehicles[0]._id.toString())
           vehicles = vehicles.map((vehicle) => {
             return {
               ...vehicle,
@@ -108,7 +106,6 @@ module.exports.addVehicle = async (req, res, next) => {
 
     const existingVehicle = await Vehicle.findOne({ model: model })
     if (existingVehicle) {
-      console.log('existing', existingVehicle)
       return res.status(400).json({
         status: 'error',
         msg: 'vehicle with given model already exists',
