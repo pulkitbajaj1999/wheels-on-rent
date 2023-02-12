@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
@@ -15,6 +15,7 @@ import Tooltip from '@mui/material/Tooltip'
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
 import AddIcon from '@mui/icons-material/Add'
+import usePostData from '../../hooks/use-post-data'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 const SRC = 'https://imgd-ct.aeplcdn.com/664x415/n/i78oo0b_1636751.jpg?q=75'
@@ -55,6 +56,9 @@ const classes = {
 }
 
 const CardItem = ({ vehicle, booking, user, cardType, role }) => {
+  const navigate = useNavigate()
+  const [postData, { loading, data, error }] = usePostData()
+
   const [days, setDays] = useState(1)
   const incrementhandler = () => {
     if (days >= 10) return
@@ -63,6 +67,25 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
   const decrementHandler = () => {
     if (days <= 1) return
     setDays((days) => days - 1)
+  }
+
+  const bookVehicleHandler = () => {
+    const url = BASE_URL + '/api/bookings/add'
+    const formBody = new FormData()
+    formBody.append('vehicleId', vehicle._id)
+    formBody.append('date', new Date())
+    formBody.append('days', days)
+
+    postData({ url, method: 'POST', payload: formBody })
+  }
+
+  const editBookingHandler = () => {
+    navigate(`/bookings/${booking._id}/edit`)
+  }
+
+  const deleteBookingHandler = () => {
+    const url = BASE_URL + `/api/bookings/${booking._id}/delete`
+    postData({ url, method: 'DELETE' })
   }
 
   const bookingDays = (
@@ -101,7 +124,12 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
 
   const bookingButton = (
     <Container sx={{ marginTop: 'auto' }}>
-      <Button variant="contained" size="large" sx={classes.bookButton}>
+      <Button
+        variant="contained"
+        size="large"
+        sx={classes.bookButton}
+        onClick={bookVehicleHandler}
+      >
         Book
       </Button>
     </Container>
@@ -125,12 +153,12 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
       <Container>
         <Tooltip>
           <IconButton>
-            <EditIcon />
+            <EditIcon onClick={editBookingHandler} />
           </IconButton>
         </Tooltip>
         <Tooltip>
           <IconButton>
-            <DeleteIcon />
+            <DeleteIcon onClick={deleteBookingHandler} />
           </IconButton>
         </Tooltip>
       </Container>

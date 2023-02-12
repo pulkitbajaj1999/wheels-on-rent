@@ -13,7 +13,7 @@ import AgentBookingView from './components/AgentBookingView'
 import BookingsOnVehicle from './components/BookingsOnVehicle'
 import VehicleForm from './Form/VehicleForm'
 import Login from './components/Login'
-import Signup from './components/Signup'
+import BookingForm from './Form/BookingForm'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
@@ -45,6 +45,10 @@ const App = () => {
         )}
         {authState?.user?.role === 'AGENT' && (
           <Route path="/cars/add" element={<VehicleForm />} />
+        )}
+
+        {authState?.user?.role === 'CUSTOMER' && (
+          <Route path="/bookings/:bookingId/edit" element={<BookingForm />} />
         )}
         <Route path="/login" element={<Login isLogin={true} />} />
         <Route path="/signup" element={<Login />} />
