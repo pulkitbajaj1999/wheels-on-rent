@@ -21,6 +21,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
 
 import { logout } from '../store/authActions'
+import { Typography } from '@mui/material'
 
 const classes = {
   navLink: {
@@ -138,6 +139,13 @@ const TopBar = () => {
         </MenuItem>
       )}
       {/* user is logged in */}
+      {authState.isAuthenticated && (
+        <Typography
+          sx={{ margin: '0 1rem', color: '#a8a8a8', fontWeight: '200' }}
+        >
+          {authState?.user?.email}
+        </Typography>
+      )}
       {authState.isAuthenticated && (
         <MenuItem onClick={dispatchMenuAction.bind(null, 'PROFILE')}>
           Profile

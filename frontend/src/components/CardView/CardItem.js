@@ -184,12 +184,12 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
     <Container sx={{ margin: 'auto' }}>
       <Tooltip>
         <IconButton onClick={editVehicleHandler}>
-          <EditIcon />
+          <EditIcon fontSize="large" />
         </IconButton>
       </Tooltip>
       <Tooltip>
         <IconButton onClick={deleteVehicleHandler}>
-          <DeleteIcon />
+          <DeleteIcon fontSize="large" />
         </IconButton>
       </Tooltip>
     </Container>
