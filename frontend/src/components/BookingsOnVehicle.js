@@ -138,7 +138,12 @@ const BookingsOnVehicle = () => {
             </TableHead>
             <TableBody>
               {bookings.map((booking, index) => (
-                <TableRow hover role="checkbox" tabIndex={-1}>
+                <TableRow
+                  key={booking?._id}
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                >
                   <TableCell align="center" component="th">
                     {booking?.user?.profile?.name}
                   </TableCell>
