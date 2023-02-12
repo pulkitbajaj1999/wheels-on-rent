@@ -4,11 +4,10 @@ import CardView from './CardView/CardView'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
-const Bookings = (role) => {
-  const url = BASE_URL + '/api/bookings'
+const Bookings = ({ role }) => {
+  const url = BASE_URL + '/api/bookings/customer'
   const [isLoading, data, error] = useFetch({ url })
 
-  console.log('data', data)
   return (
     <React.Fragment>
       {isLoading && <h1>IsLoading</h1>}

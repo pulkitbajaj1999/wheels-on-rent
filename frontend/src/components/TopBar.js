@@ -32,6 +32,7 @@ const classes = {
     textDecoration: 'none',
     borderRadius: '0.4rem',
     backgroundColor: 'black',
+    borderRadius: '0.5rem',
   },
 }
 
@@ -103,7 +104,6 @@ const TopBar = () => {
     switch (item) {
       // authenticated
       case 'PROFILE':
-        console.log('profile-selected')
         break
 
       case 'LOGOUT':
@@ -171,6 +171,7 @@ const TopBar = () => {
           <List sx={{ display: 'flex' }}>
             <NavLink
               to="/cars"
+              end
               style={({ isActive }) =>
                 isActive ? classes.navLinkActive : classes.navLink
               }
@@ -181,18 +182,34 @@ const TopBar = () => {
                 </ListItemButton>
               </ListItem>
             </NavLink>
-            <NavLink
-              to="/bookings"
-              style={({ isActive }) =>
-                isActive ? classes.navLinkActive : classes.navLink
-              }
-            >
-              <ListItem key="bookings" disablePadding>
-                <ListItemButton sx={{ textAlign: 'center' }}>
-                  <ListItemText primary="bookings" />
-                </ListItemButton>
-              </ListItem>
-            </NavLink>
+            {authState.isAuthenticated && (
+              <NavLink
+                to="/bookings"
+                style={({ isActive }) =>
+                  isActive ? classes.navLinkActive : classes.navLink
+                }
+              >
+                <ListItem key="bookings" disablePadding>
+                  <ListItemButton sx={{ textAlign: 'center' }}>
+                    <ListItemText primary="bookings" />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            )}
+            {authState?.user?.role === 'AGENT' && (
+              <NavLink
+                to="/cars/add"
+                style={({ isActive }) =>
+                  isActive ? classes.navLinkActive : classes.navLink
+                }
+              >
+                <ListItem key="add-car" disablePadding>
+                  <ListItemButton sx={{ textAlign: 'center' }}>
+                    <ListItemText primary="Add Car" />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            )}
           </List>
         </Toolbar>
 

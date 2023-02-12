@@ -55,8 +55,6 @@ const classes = {
 }
 
 const CardItem = ({ vehicle, booking, user, cardType, role }) => {
-  console.log('vehicle', vehicle)
-  console.log('booking', booking)
   const [days, setDays] = useState(1)
   const incrementhandler = () => {
     if (days >= 10) return
@@ -139,7 +137,7 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
     </Container>
   )
 
-  const vehicleControls = (
+  const vehicleActions = (
     <Container sx={{ margin: 'auto' }}>
       <Tooltip>
         <IconButton>
@@ -194,12 +192,12 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
           </Typography>
         </Container>
 
-        {cardType === 'vehicle' && role === 'customer' && bookingDays}
+        {cardType === 'vehicle' && role === 'CUSTOMER' && bookingDays}
         {cardType === 'vehicle' &&
-          (!role || role === 'customer') &&
+          (!role || role === 'CUSTOMER') &&
           bookingButton}
-        {cardType === 'booking' && bookingDetails}
-        {cardType === 'vehicle' && role === 'agent' && vehicleControls}
+        {cardType === 'vehicle' && role === 'AGENT' && vehicleActions}
+        {cardType === 'booking' && role === 'CUSTOMER' && bookingDetails}
       </CardContent>
     </Card>
   )

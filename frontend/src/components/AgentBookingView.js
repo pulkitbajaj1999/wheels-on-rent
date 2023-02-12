@@ -102,7 +102,6 @@ const AgentBookingView = () => {
   const url = BASE_URL + '/api/vehicles/bookings'
   const [isLoading, data, error] = useFetch({ url })
 
-  console.log('data', data)
   return (
     <React.Fragment>
       {isLoading && <h1>IsLoading</h1>}

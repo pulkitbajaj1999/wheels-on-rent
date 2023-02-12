@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { login } from '../store/authActions'
 import { clearError } from '../store/auth'
-import axios from 'axios'
 
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
@@ -11,7 +10,6 @@ import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import Row from '@mui/material/TableRow'
 import Col from '@mui/material/TableCell'
-import { ButtonGroup, Switch } from '@mui/material'
 
 // const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 // const BACKGROUND_SRC =
@@ -19,7 +17,6 @@ import { ButtonGroup, Switch } from '@mui/material'
 
 const BACKGROUND_SRC =
   'https://www.kohchangaccom.com/wp-content/uploads/2016/04/Car-All.jpg'
-
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
     color: 'black',
@@ -47,46 +44,25 @@ const CssTextField = styled(TextField)({
   },
 })
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || ''
-
-const signupHandler = (formBody) => {
-  const url = BASE_URL + '/api/auth/signup'
-  return axios
-    .post(url, formBody)
-    .then((response) => {
-      if (response.ok) return response.data
-    })
-    .catch((response) => {
-      return { status: 'error', message: response.data.message }
-    })
-}
-
-const Login = ({ isLogin }) => {
+const Signup = () => {
   const authState = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  const [role, setRole] = useState('CUSTOMER')
-  const setRoleToAgent = () => {
-    if (role !== 'agent') setRole('AGENT')
-  }
-  const setRoleToCustomer = () => {
-    if (role !== 'customer') setRole('CUSTOMER')
-  }
-
+  console.log('auth-state', authState)
   const handleSubmit = (event) => {
     event.preventDefault()
     const formBody = new FormData(event.currentTarget)
-    formBody.append('role', role)
-    // signup
-    if (!isLogin) {
-      signupHandler(formBody).then(() => {
-        navigate('/login')
-      })
-    } else {
-      dispatch(login(formBody))
-    }
+    dispatch(login(formBody))
   }
+
+  // display error
+  useEffect(() => {
+    if (authState && authState.error) {
+      // alert(authState.error)
+      dispatch(clearError())
+    }
+  }, authState.error)
 
   // if authenticated navigate to home
   useEffect(() => {
@@ -100,7 +76,7 @@ const Login = ({ isLogin }) => {
       className="content mainContent"
       sx={{
         flex: 1,
-        padding: '4rem 8rem',
+        padding: '4rem 12rem',
       }}
     >
       <Row>
@@ -113,18 +89,16 @@ const Login = ({ isLogin }) => {
                 noValidate
                 sx={{ mt: 1 }}
               >
-                {!isLogin && (
-                  <CssTextField
-                    id="name"
-                    margin="normal"
-                    required
-                    fullWidth
-                    label="Name"
-                    name="name"
-                    autoComplete="name"
-                    autoFocus
-                  />
-                )}
+                <CssTextField
+                  id="name"
+                  margin="normal"
+                  required
+                  fullWidth
+                  label="Name"
+                  name="name"
+                  autoComplete="name"
+                  autoFocus
+                />
                 <CssTextField
                   id="email"
                   margin="normal"
@@ -145,32 +119,6 @@ const Login = ({ isLogin }) => {
                   id="password"
                   autoComplete="current-password"
                 />
-                {!isLogin && (
-                  <ButtonGroup
-                    name="role"
-                    variant="contained"
-                    sx={{
-                      justifyContent: 'center',
-                      width: '100%',
-                      boxShadow: 'none',
-                    }}
-                  >
-                    <Button
-                      sx={{
-                        background: role === 'CUSTOMER' ? 'green' : 'grey',
-                      }}
-                      onClick={setRoleToCustomer}
-                    >
-                      Customer
-                    </Button>
-                    <Button
-                      sx={{ background: role === 'AGENT' ? 'green' : 'grey' }}
-                      onClick={setRoleToAgent}
-                    >
-                      Agent
-                    </Button>
-                  </ButtonGroup>
-                )}
 
                 <Button
                   type="submit"
@@ -178,15 +126,15 @@ const Login = ({ isLogin }) => {
                   variant="contained"
                   sx={{ mt: 3, mb: 2, height: '55px', fontSize: '20px' }}
                 >
-                  {isLogin ? 'LOGIN' : 'SIGNUP'}
+                  Signup
                 </Button>
               </Box>
-              {isLogin && (
-                <h4>
-                  Already a user ? <NavLink to="/signup"> Signup</NavLink>
-                </h4>
-              )}
             </div>
+          </div>
+          <div>
+            <h4>
+              Already a user ? <NavLink to="/signup"> Signup</NavLink>
+            </h4>
           </div>
         </Col>
       </Row>
@@ -194,4 +142,4 @@ const Login = ({ isLogin }) => {
   )
 }
 
-export default Login
+export default Signup

@@ -12,6 +12,8 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 export const login = (credentials) => async (dispatch) => {
   try {
     // Send a request to the server with the credentials
+    console.log('credentials', credentials)
+    window.test = credentials
     const { data } = await axios.post(BASE_URL + '/api/auth/login', credentials)
 
     // Extract the token and user from the response
