@@ -3,14 +3,20 @@ import axios from 'axios'
 
 import classes from './form.module.css'
 import Box from '@mui/material/Box'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import useFetch from '../hooks/use-fetch'
 
 // constants
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
-const VehicleForm = ({ data }) => {
+const VehicleForm = () => {
+  const navigate = useNavigate()
   const params = useParams()
   const vehicleId = params?.vehicleId
+
+  const url = BASE_URL + `/api/vehicles/${vehicleId}`
+  const [isLoading, data, error] = useFetch({ url })
+  const vehicle = data?.vehicle
 
   // initialize references
   const modelRef = useRef()
@@ -20,7 +26,7 @@ const VehicleForm = ({ data }) => {
   const imageRef = useRef()
   const detailsRef = useRef()
 
-  const formSubmitHandler = (e) => {
+  const formSubmitHandler = async (e) => {
     e.preventDefault()
     const carFormData = new FormData()
 
@@ -35,13 +41,13 @@ const VehicleForm = ({ data }) => {
     let url = BASE_URL + '/api/vehicles/add'
     let method = 'POST'
 
-    if (data && vehicleId) {
+    if (vehicleId) {
       url = BASE_URL + `/api/vehicles/${vehicleId}/edit`
       method = 'PUT'
     }
 
     // POST request to backend and then close the overlay and refresh the accounts
-    axios({
+    await axios({
       url: url,
       method: method,
       headers: {
@@ -49,6 +55,7 @@ const VehicleForm = ({ data }) => {
       },
       data: carFormData || undefined,
     })
+    navigate('/cars')
   }
 
   return (
@@ -60,7 +67,7 @@ const VehicleForm = ({ data }) => {
             id="model"
             type="text"
             ref={modelRef}
-            defaultValue={data ? data.model : ''}
+            defaultValue={vehicle ? vehicle.model : ''}
           />
         </div>
         <div className={classes.input}>
@@ -69,7 +76,7 @@ const VehicleForm = ({ data }) => {
             id="number"
             type="text"
             ref={numberRef}
-            defaultValue={data ? data.number : ''}
+            defaultValue={vehicle ? vehicle.number : ''}
           />
         </div>
         <div className={classes.input}>
@@ -78,7 +85,7 @@ const VehicleForm = ({ data }) => {
             id="capacity"
             type="number"
             ref={capacityRef}
-            defaultValue={data ? data.capacity : ''}
+            defaultValue={vehicle ? vehicle.capacity : ''}
           />
         </div>
         <div className={classes.input}>
@@ -87,7 +94,7 @@ const VehicleForm = ({ data }) => {
             id="rent"
             type="number"
             ref={rentRef}
-            defaultValue={data ? data.rent : ''}
+            defaultValue={vehicle ? vehicle.rent : ''}
           />
         </div>
         <div className={classes.input}>
@@ -96,7 +103,7 @@ const VehicleForm = ({ data }) => {
             id="details"
             type="textbox"
             ref={detailsRef}
-            defaultValue={data ? data.details : ''}
+            defaultValue={vehicle ? vehicle.details : ''}
           />
         </div>
         <div className={classes.input}>

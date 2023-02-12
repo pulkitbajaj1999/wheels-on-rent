@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import React, { useEffect } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { checkAuth } from './store/authActions'
 // import Login from './components/Login'
@@ -14,10 +14,12 @@ import BookingsOnVehicle from './components/BookingsOnVehicle'
 import VehicleForm from './Form/VehicleForm'
 import Login from './components/Login'
 import BookingForm from './Form/BookingForm'
+import NotFound from './components/404/NotFound'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
 const App = () => {
+  console.log('-----app-----')
   const dispatch = useDispatch()
   // fetching auth state
   const authState = useSelector((state) => state.auth)
@@ -30,6 +32,7 @@ const App = () => {
     <Box>
       <TopBar />
       <Routes>
+        <Route index={true} element={<Navigate to="/cars" />} />
         <Route
           path="/cars"
           element={<Vehicles role={authState?.user?.role} />}
@@ -47,11 +50,16 @@ const App = () => {
           <Route path="/cars/add" element={<VehicleForm />} />
         )}
 
+        {authState?.user?.role === 'AGENT' && (
+          <Route path="/cars/:vehicleId/edit" element={<VehicleForm />} />
+        )}
+
         {authState?.user?.role === 'CUSTOMER' && (
           <Route path="/bookings/:bookingId/edit" element={<BookingForm />} />
         )}
         <Route path="/login" element={<Login isLogin={true} />} />
         <Route path="/signup" element={<Login />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Box>
   )

@@ -183,7 +183,13 @@ const Login = ({ isLogin }) => {
               </Box>
               {isLogin && (
                 <h4>
-                  Already a user ? <NavLink to="/signup"> Signup</NavLink>
+                  Not a user ? <NavLink to="/signup"> Signup</NavLink>
+                </h4>
+              )}
+
+              {!isLogin && (
+                <h4>
+                  Already a user ? <NavLink to="/login"> Login</NavLink>
                 </h4>
               )}
             </div>

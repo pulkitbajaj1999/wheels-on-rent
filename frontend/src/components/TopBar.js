@@ -2,7 +2,7 @@
 // handle email in avatar
 import React, { useState, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 import { styled, alpha } from '@mui/material/styles'
 import AppBar from '@mui/material/AppBar'
@@ -153,7 +153,7 @@ const TopBar = () => {
 
   const querySubmitHandler = (e) => {
     e.preventDefault()
-    navigate(`/search?q=${query}`)
+    navigate(`?q=${query}`)
     setQuery('')
   }
 

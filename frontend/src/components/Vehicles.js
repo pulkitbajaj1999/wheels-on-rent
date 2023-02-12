@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import useFetch from '../hooks/use-fetch'
 import CardView from './CardView/CardView'
 // import ListView from './ListView/ListView'
@@ -6,7 +7,8 @@ import CardView from './CardView/CardView'
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
 const Vehicles = ({ role }) => {
-  const url = BASE_URL + '/api/vehicles'
+  const { search } = useLocation()
+  const url = BASE_URL + '/api/vehicles' + search
   const [isLoading, data, error] = useFetch({ url })
 
   return (

@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import useFetch from '../hooks/use-fetch'
 import CardView from './CardView/CardView'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
 const Bookings = ({ role }) => {
-  const url = BASE_URL + '/api/bookings/customer'
+  const { search } = useLocation()
+
+  const url = BASE_URL + '/api/bookings/customer' + search
   const [isLoading, data, error] = useFetch({ url })
 
   return (

@@ -18,7 +18,6 @@ import AddIcon from '@mui/icons-material/Add'
 import usePostData from '../../hooks/use-post-data'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
-const SRC = 'https://imgd-ct.aeplcdn.com/664x415/n/i78oo0b_1636751.jpg?q=75'
 
 const classes = {
   text: {
@@ -58,34 +57,50 @@ const classes = {
 const CardItem = ({ vehicle, booking, user, cardType, role }) => {
   const navigate = useNavigate()
   const [postData, { loading, data, error }] = usePostData()
-
   const [days, setDays] = useState(1)
+
   const incrementhandler = () => {
     if (days >= 10) return
     setDays((days) => days + 1)
   }
+
   const decrementHandler = () => {
     if (days <= 1) return
     setDays((days) => days - 1)
   }
 
-  const bookVehicleHandler = () => {
+  const bookVehicleHandler = async () => {
+    if (role !== 'CUSTOMER') {
+      console.log('role', role)
+      navigate('/login')
+      return
+    }
     const url = BASE_URL + '/api/bookings/add'
     const formBody = new FormData()
     formBody.append('vehicleId', vehicle._id)
     formBody.append('date', new Date())
     formBody.append('days', days)
+    await postData({ url, method: 'POST', payload: formBody })
+    navigate('/bookings')
+  }
 
-    postData({ url, method: 'POST', payload: formBody })
+  const editVehicleHandler = () => {
+    navigate(`/cars/${vehicle._id}/edit`)
+  }
+  const deleteVehicleHandler = async () => {
+    const url = BASE_URL + `/api/vehicles/${vehicle._id}/delete`
+    await postData({ url, method: 'DELETE' })
+    navigate(0)
   }
 
   const editBookingHandler = () => {
     navigate(`/bookings/${booking._id}/edit`)
   }
 
-  const deleteBookingHandler = () => {
+  const deleteBookingHandler = async () => {
     const url = BASE_URL + `/api/bookings/${booking._id}/delete`
-    postData({ url, method: 'DELETE' })
+    await postData({ url, method: 'DELETE' })
+    navigate(0)
   }
 
   const bookingDays = (
@@ -152,13 +167,13 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
       </Container>
       <Container>
         <Tooltip>
-          <IconButton>
-            <EditIcon onClick={editBookingHandler} />
+          <IconButton onClick={editBookingHandler}>
+            <EditIcon />
           </IconButton>
         </Tooltip>
         <Tooltip>
-          <IconButton>
-            <DeleteIcon onClick={deleteBookingHandler} />
+          <IconButton onClick={deleteBookingHandler}>
+            <DeleteIcon />
           </IconButton>
         </Tooltip>
       </Container>
@@ -168,12 +183,12 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
   const vehicleActions = (
     <Container sx={{ margin: 'auto' }}>
       <Tooltip>
-        <IconButton>
+        <IconButton onClick={editVehicleHandler}>
           <EditIcon />
         </IconButton>
       </Tooltip>
       <Tooltip>
-        <IconButton>
+        <IconButton onClick={deleteVehicleHandler}>
           <DeleteIcon />
         </IconButton>
       </Tooltip>
@@ -197,8 +212,7 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
           sx={{ height: '80%', objectFit: 'contain' }}
           component="img"
           alt=""
-          // image={`${BASE_URL}/${props.imageUrl}`}
-          image={vehicle.imageUrl}
+          image={`${BASE_URL}/${vehicle.imageUrl}`}
         />
         <Typography sx={classes.title}>{vehicle.model}</Typography>
       </Container>

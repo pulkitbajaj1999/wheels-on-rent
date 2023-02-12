@@ -60,7 +60,7 @@ const CardItem = ({ vehicle, onClickCard }) => {
           sx={{ height: '70%', objectFit: 'contain' }}
           component="img"
           alt=""
-          image={vehicle.imageUrl}
+          image={`${BASE_URL}/${vehicle.imageUrl}`}
         />
         <Typography sx={classes.model}>{vehicle.model}</Typography>
         <Typography sx={classes.number}>{vehicle.number}</Typography>
