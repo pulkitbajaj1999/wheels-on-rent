@@ -121,7 +121,7 @@ module.exports.addVehicle = async (req, res, next) => {
 
     if (req.files && req.files.image) {
       const file = req.files.image[0]
-      vehicle.imageUrl = `media/image/${file.filename}`
+      vehicle.imageUrl = `media/images/${file.filename}`
     }
 
     await vehicle.save().then((vehicle) => {
@@ -170,7 +170,7 @@ module.exports.editVehicle = async (req, res, next) => {
 
     if (req.files && req.files.image) {
       const file = req.files.image[0]
-      vehicle.imageUrl = `media/image/${file.filename}`
+      vehicle.imageUrl = `media/images/${file.filename}`
     }
 
     await vehicle.save().then((vehicle) => {
