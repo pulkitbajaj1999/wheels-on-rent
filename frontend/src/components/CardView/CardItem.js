@@ -159,10 +159,11 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
           From <CalendarMonthIcon />
           {new Date(booking?.date).toLocaleDateString()}
         </Typography>
-        <Typography>
+        <Typography>Days &emsp; {booking?.days}</Typography>
+        {/* <Typography>
           To &emsp; <CalendarMonthIcon />
           {new Date(booking?.date).toLocaleDateString()}
-        </Typography>
+        </Typography> */}
       </Container>
       <Container>
         <Tooltip>
