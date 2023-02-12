@@ -15,7 +15,7 @@ const VehicleForm = () => {
   const params = useParams()
   const vehicleId = params?.vehicleId
 
-  const url = BASE_URL + `/api/vehicles/${vehicleId}`
+  const url = vehicleId ? BASE_URL + `/api/vehicles/${vehicleId}` : null
   const [isLoading, data, error] = useFetch({ url })
   const vehicle = data?.vehicle
 
