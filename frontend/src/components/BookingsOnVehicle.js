@@ -51,7 +51,6 @@ const classes = {
 }
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
-const SRC = 'https://imgd-ct.aeplcdn.com/664x415/n/i78oo0b_1636751.jpg?q=75'
 
 const BookingsOnVehicle = () => {
   const { vehicleId } = useParams()
@@ -81,8 +80,7 @@ const BookingsOnVehicle = () => {
               sx={{ height: '80%', objectFit: 'contain' }}
               component="img"
               alt=""
-              // image={`${BASE_URL}/${props.imageUrl}`}
-              image={vehicle.imageUrl}
+              image={`${BASE_URL}/${vehicle.imageUrl}`}
             />
             <Typography sx={classes.title}>{vehicle.model}</Typography>
           </Container>
