@@ -212,9 +212,9 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
           sx={{ height: '80%', objectFit: 'contain' }}
           component="img"
           alt=""
-          image={`${BASE_URL}/${vehicle.imageUrl}`}
+          image={`${BASE_URL}/${vehicle?.imageUrl}`}
         />
-        <Typography sx={classes.title}>{vehicle.model}</Typography>
+        <Typography sx={classes.title}>{vehicle?.model}</Typography>
       </Container>
       <CardContent
         sx={{
@@ -223,12 +223,12 @@ const CardItem = ({ vehicle, booking, user, cardType, role }) => {
         }}
       >
         <Container>
-          <Typography sx={classes.text}>{vehicle.number}</Typography>
+          <Typography sx={classes.text}>{vehicle?.number}</Typography>
           <Typography sx={classes.capacity}>
-            <PeopleIcon /> {vehicle.capacity}
+            <PeopleIcon /> {vehicle?.capacity}
           </Typography>
-          {/* <Button variant="contained">Capacity: {vehicle.capacity}</Button> */}
-          <Typography sx={classes.price}>₹ {vehicle.rent} per day</Typography>
+          {/* <Button variant="contained">Capacity: {vehicle?.capacity}</Button> */}
+          <Typography sx={classes.price}>₹ {vehicle?.rent} per day</Typography>
           <Typography variant="body2" color="text.secondary">
             {vehicle?.details}
           </Typography>
