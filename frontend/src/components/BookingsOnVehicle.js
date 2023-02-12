@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import useFetch from '../hooks/use-fetch'
+import LoadingSpinner from './UI/LoadingSpinner/Spinner'
 
 import Container from '@mui/material/Container'
 import Card from '@mui/material/Card'
@@ -13,7 +14,7 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
-import { TableHead } from '@mui/material'
+import TableHead from '@mui/material/TableHead'
 
 const classes = {
   text: {
@@ -66,6 +67,11 @@ const BookingsOnVehicle = () => {
 
   return (
     <React.Fragment>
+      {isLoading && (
+        <center>
+          <LoadingSpinner />
+        </center>
+      )}
       {vehicle && (
         <Card
           sx={{
@@ -106,6 +112,11 @@ const BookingsOnVehicle = () => {
         </Card>
       )}
 
+      {isLoading2 && (
+        <center>
+          <LoadingSpinner />
+        </center>
+      )}
       {bookings && (
         <TableContainer>
           <Table>

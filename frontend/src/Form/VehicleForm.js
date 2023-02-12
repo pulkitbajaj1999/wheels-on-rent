@@ -5,6 +5,7 @@ import classes from './form.module.css'
 import Box from '@mui/material/Box'
 import { useNavigate, useParams } from 'react-router-dom'
 import useFetch from '../hooks/use-fetch'
+import LoadingSpinner from '../components/UI/LoadingSpinner/Spinner'
 
 // constants
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
@@ -59,60 +60,67 @@ const VehicleForm = () => {
   }
 
   return (
-    <Box>
-      <form className={classes.form} onSubmit={formSubmitHandler}>
-        <div className={classes.input}>
-          <label htmlFor="model">Model</label>
-          <input
-            id="model"
-            type="text"
-            ref={modelRef}
-            defaultValue={vehicle ? vehicle.model : ''}
-          />
-        </div>
-        <div className={classes.input}>
-          <label htmlFor="number">Number</label>
-          <input
-            id="number"
-            type="text"
-            ref={numberRef}
-            defaultValue={vehicle ? vehicle.number : ''}
-          />
-        </div>
-        <div className={classes.input}>
-          <label htmlFor="capacity">Capacity</label>
-          <input
-            id="capacity"
-            type="number"
-            ref={capacityRef}
-            defaultValue={vehicle ? vehicle.capacity : ''}
-          />
-        </div>
-        <div className={classes.input}>
-          <label htmlFor="rent">Rent</label>
-          <input
-            id="rent"
-            type="number"
-            ref={rentRef}
-            defaultValue={vehicle ? vehicle.rent : ''}
-          />
-        </div>
-        <div className={classes.input}>
-          <label htmlFor="details">details</label>
-          <textarea
-            id="details"
-            type="textbox"
-            ref={detailsRef}
-            defaultValue={vehicle ? vehicle.details : ''}
-          />
-        </div>
-        <div className={classes.input}>
-          <label htmlFor="image">Image</label>
-          <input id="image" type="file" ref={imageRef} />
-        </div>
-        <button type="submit">Save</button>
-      </form>
-    </Box>
+    <React.Fragment>
+      {isLoading && (
+        <center>
+          <LoadingSpinner />
+        </center>
+      )}
+      <Box>
+        <form className={classes.form} onSubmit={formSubmitHandler}>
+          <div className={classes.input}>
+            <label htmlFor="model">Model</label>
+            <input
+              id="model"
+              type="text"
+              ref={modelRef}
+              defaultValue={vehicle ? vehicle.model : ''}
+            />
+          </div>
+          <div className={classes.input}>
+            <label htmlFor="number">Number</label>
+            <input
+              id="number"
+              type="text"
+              ref={numberRef}
+              defaultValue={vehicle ? vehicle.number : ''}
+            />
+          </div>
+          <div className={classes.input}>
+            <label htmlFor="capacity">Capacity</label>
+            <input
+              id="capacity"
+              type="number"
+              ref={capacityRef}
+              defaultValue={vehicle ? vehicle.capacity : ''}
+            />
+          </div>
+          <div className={classes.input}>
+            <label htmlFor="rent">Rent</label>
+            <input
+              id="rent"
+              type="number"
+              ref={rentRef}
+              defaultValue={vehicle ? vehicle.rent : ''}
+            />
+          </div>
+          <div className={classes.input}>
+            <label htmlFor="details">details</label>
+            <textarea
+              id="details"
+              type="textbox"
+              ref={detailsRef}
+              defaultValue={vehicle ? vehicle.details : ''}
+            />
+          </div>
+          <div className={classes.input}>
+            <label htmlFor="image">Image</label>
+            <input id="image" type="file" ref={imageRef} />
+          </div>
+          <button type="submit">Save</button>
+        </form>
+      </Box>
+    </React.Fragment>
   )
 }
 

@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import { useNavigate, useParams } from 'react-router-dom'
 import usePostData from '../hooks/use-post-data'
 import useFetch from '../hooks/use-fetch'
+import LoadingSpinner from '../components/UI/LoadingSpinner/Spinner'
 
 // constants
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
@@ -48,52 +49,59 @@ const BookingForm = () => {
   }
 
   return (
-    <Box>
-      <form className={classes.form} onSubmit={formSubmitHandler}>
-        {vehicle && (
-          <div className={classes.input}>
-            <label htmlFor="model">model</label>
-            <input
-              id="model"
-              type="text"
-              disabled
-              defaultValue={vehicle?.model}
-            />
-          </div>
-        )}
-        {vehicle && (
-          <div className={classes.input}>
-            <label htmlFor="number">number</label>
-            <input
-              id="number"
-              type="text"
-              disabled
-              defaultValue={vehicle?.number}
-            />
-          </div>
-        )}
+    <React.Fragment>
+      {isLoading && (
+        <center>
+          <LoadingSpinner />
+        </center>
+      )}
+      <Box>
+        <form className={classes.form} onSubmit={formSubmitHandler}>
+          {vehicle && (
+            <div className={classes.input}>
+              <label htmlFor="model">model</label>
+              <input
+                id="model"
+                type="text"
+                disabled
+                defaultValue={vehicle?.model}
+              />
+            </div>
+          )}
+          {vehicle && (
+            <div className={classes.input}>
+              <label htmlFor="number">number</label>
+              <input
+                id="number"
+                type="text"
+                disabled
+                defaultValue={vehicle?.number}
+              />
+            </div>
+          )}
 
-        <div className={classes.input}>
-          <label htmlFor="date">date</label>
-          <input
-            id="date"
-            type="date"
-            ref={dateRef}
-            defaultValue={bookingData ? bookingData?.booking?.date : ''}
-          />
-        </div>
-        <div className={classes.input}>
-          <label htmlFor="days">days</label>
-          <input
-            id="days"
-            type="number"
-            ref={daysRef}
-            defaultValue={bookingData ? bookingData?.booking?.days : ''}
-          />
-        </div>
-        <button type="submit">Save</button>
-      </form>
-    </Box>
+          <div className={classes.input}>
+            <label htmlFor="date">date</label>
+            <input
+              id="date"
+              type="date"
+              ref={dateRef}
+              defaultValue={bookingData ? bookingData?.booking?.date : ''}
+            />
+          </div>
+          <div className={classes.input}>
+            <label htmlFor="days">days</label>
+            <input
+              id="days"
+              type="number"
+              ref={daysRef}
+              defaultValue={bookingData ? bookingData?.booking?.days : ''}
+            />
+          </div>
+          <button type="submit">Save</button>
+        </form>
+      </Box>
+    </React.Fragment>
   )
 }
 

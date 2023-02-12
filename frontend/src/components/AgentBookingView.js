@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import LoadingSpinner from './UI/LoadingSpinner/Spinner'
 import useFetch from '../hooks/use-fetch'
 
 import Box from '@mui/material/Box'
@@ -7,7 +9,6 @@ import Card from '@mui/material/Card'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import { useNavigate } from 'react-router-dom'
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || ''
 
@@ -104,7 +105,11 @@ const AgentBookingView = () => {
 
   return (
     <React.Fragment>
-      {isLoading && <h1>IsLoading</h1>}
+      {isLoading && (
+        <center>
+          <LoadingSpinner />
+        </center>
+      )}
       {error && <h1>Error</h1>}
       <CardView cards={data && data.vehicles ? data.vehicles : []} />
     </React.Fragment>
