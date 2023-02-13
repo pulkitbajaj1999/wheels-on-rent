@@ -11,6 +11,7 @@ module.exports.getBookings = (req, res, next) => {
   if (userId) options.user = userId
   if (date) options.date = new Date(date)
   Booking.find(options)
+    .sort({ date: 'asc' })
     .populate('user vehicle')
     .lean()
     .then((bookings) => {
@@ -25,7 +26,7 @@ module.exports.getBookings = (req, res, next) => {
     })
 }
 
-module.exports.getBookingsById = (req, res, next) => {
+module.exports.getBookingById = (req, res, next) => {
   const { bookingId } = req.params
   if (!bookingId)
     return res.status(400).json({
@@ -62,6 +63,7 @@ module.exports.getCustomerBookings = (req, res, next) => {
     })
   }
   Booking.find({ user: userId })
+    .sort({ date: 'asc' })
     .populate('user vehicle')
     .lean()
     .then((bookings) => {

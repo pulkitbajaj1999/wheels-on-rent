@@ -12,6 +12,7 @@ module.exports.getVehicles = (req, res, next) => {
       }
     : {}
   Vehicle.find(options)
+    .sort({ model: 'asc' })
     .lean()
     .then((vehicles) => {
       return res.status(200).json({
@@ -38,6 +39,7 @@ module.exports.getVehiclesWithBookings = (req, res, next) => {
     .then((bookings) => {
       Vehicle.find(options)
         .lean()
+        .sort({ model: 'asc' })
         .then((vehicles) => {
           vehicles = vehicles.map((vehicle) => {
             return {

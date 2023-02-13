@@ -22,7 +22,7 @@ router.get(
 router.get(
   '/:bookingId',
   jwtAuthMiddleware.checkRole(['CUSTOMER', 'AGENT']),
-  bookingController.getBookingsById
+  bookingController.getBookingById
 )
 
 // POST add new booking
