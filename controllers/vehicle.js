@@ -104,7 +104,7 @@ module.exports.addVehicle = async (req, res, next) => {
         msg: 'insufficient payload',
       })
 
-    const existingVehicle = await Vehicle.findOne({ model: model })
+    const existingVehicle = await Vehicle.findOne({ number: number })
     if (existingVehicle) {
       return res.status(400).json({
         status: 'error',
